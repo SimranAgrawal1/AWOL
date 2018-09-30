@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -80,7 +81,7 @@ public class Bunk extends AppCompatActivity {
                         double p = (present / (total + i)) * 100;
                         if (p < 75) break;
                     }
-                    result.setText("Bunk " + (i-1) + " classes for 75% ");
+                    result.setText                                                                                                                                                  ("Bunk " + (i-1) + " classes for 75% ");
 
                 } else if (75 > percent) {
                     int i;
@@ -108,7 +109,7 @@ public class Bunk extends AppCompatActivity {
                         double p = (present / (total + i)) * 100;
                         if (p < 75) break;
                     }
-                    result.setText("Bunk " + (i-1) + " classes for 75% ");
+                    result.setText(Html.fromHtml("Bunk " + (i-1) + " classes for"+"<b>"+"75% "+"</b>"));
                     atndedt.setVisibility(View.INVISIBLE);
                     taredt.setVisibility(View.INVISIBLE);
                     bnkedt.setVisibility(View.INVISIBLE);
@@ -132,7 +133,7 @@ public class Bunk extends AppCompatActivity {
                         double p = ((present + i) / (total + i) * 100);
                         if (p > 75) break;
                     }
-                    result.setText("Attend " + (i-1) + " classes for 75%");
+                    result.setText(Html.fromHtml("Attend " + (i-1) + " classes for"+"<b>"+"75%"+"</b>"));
                     atndedt.setVisibility(View.INVISIBLE);
                     taredt.setVisibility(View.INVISIBLE);
                     bnkedt.setVisibility(View.INVISIBLE);
@@ -184,7 +185,7 @@ public class Bunk extends AppCompatActivity {
                             p = (present / (total + i)) * 100;
                             if (p<tp) break;
                         }
-                        result.setText("Bunk " + (i-1) + " classes for req attendance");
+                        result.setText(Html.fromHtml("Bunk " + "<b>"+(i-1)+"</b>"+ " classes for req attendance"));
                         atndedt.setVisibility(View.INVISIBLE);
                         taredt.setVisibility(View.INVISIBLE);
                         bnkedt.setVisibility(View.INVISIBLE);
@@ -211,7 +212,7 @@ public class Bunk extends AppCompatActivity {
                                     p = (present / (total+b + i)) * 100;
                                     if (p < 75) break;
                                 }
-                                left.setText("Bunk " + (i-1) + " more classes for 75% ");
+                                left.setText(Html.fromHtml("Bunk " + (i-1) + " more classes for "+"<b>"+"75%"+"</b>"));
                                 atndedt.setVisibility(View.INVISIBLE);
                                 taredt.setVisibility(View.INVISIBLE);
                                 bnkedt.setVisibility(View.INVISIBLE);
@@ -233,7 +234,7 @@ public class Bunk extends AppCompatActivity {
                                     p = ((present + i) / (total+b + i)) * 100;
                                     if (p > 75) break;
                                 }
-                                left.setText("Attend " + (i-1) + " classes after bunk for 75%");
+                                left.setText(Html.fromHtml("Attend " +"<b>"+ (i-1) +"</b>"+ " classes after bunk for "+"<b>"+"75%"+"</b>"));
                                 atndedt.setVisibility(View.INVISIBLE);
                                 taredt.setVisibility(View.INVISIBLE);
                                 bnkedt.setVisibility(View.INVISIBLE);
@@ -261,7 +262,7 @@ public class Bunk extends AppCompatActivity {
                             double p = ((present + i) / (total + i) * 100);
                             if (p>tp) break;
                         }
-                        result.setText("Attend " + i + " classes for req attendance");
+                        result.setText(Html.fromHtml("Attend " +"<b>"+ i +"</b>"+ " classes for req attendance"));
                         atndedt.setVisibility(View.INVISIBLE);
                         taredt.setVisibility(View.INVISIBLE);
                         bnkedt.setVisibility(View.INVISIBLE);
@@ -286,7 +287,7 @@ public class Bunk extends AppCompatActivity {
                                     p = ((present+att) / (total+att+ i)) * 100;
                                     if (p < 75) break;
                                 }
-                                left.setText("Bunk " + (i-1) + " classes afterwards for 75% ");
+                                left.setText(Html.fromHtml("Bunk " + "<b>"+(i-1) +"</b>"+ " classes afterwards for "+"<b>"+"75%"+"</b"));
                                 atndedt.setVisibility(View.INVISIBLE);
                                 taredt.setVisibility(View.INVISIBLE);
                                 bnkedt.setVisibility(View.INVISIBLE);
@@ -308,7 +309,7 @@ public class Bunk extends AppCompatActivity {
                                     p = ((present+att + i) / (total+att + i) * 100);
                                     if (p > 75) break;
                                 }
-                                left.setText("Attend " + (i-1) + " more classes for 75%");
+                                left.setText(Html.fromHtml("Attend " + "<b>"+(i-1) +"</b"+ " more classes for "+"<b>"+"75%"+"</b>"));
                                 atndedt.setVisibility(View.INVISIBLE);
                                 taredt.setVisibility(View.INVISIBLE);
                                 bnkedt.setVisibility(View.INVISIBLE);
@@ -348,7 +349,7 @@ public class Bunk extends AppCompatActivity {
                     if (getCurrentFocus() != null)
                         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     double p = ((present + c) / (total + c)) * 100;
-                    result.setText("You attendance will be " + String.format("%.2f", p));
+                    result.setText(Html.fromHtml("You attendance will be " + "<b>"+String.format("%.2f", p)+"</b>"));
                     atndedt.setVisibility(View.INVISIBLE);
                     taredt.setVisibility(View.INVISIBLE);
                     bnkedt.setVisibility(View.INVISIBLE);
@@ -372,7 +373,7 @@ public class Bunk extends AppCompatActivity {
                             pr = ((present+att )/ (total+att + i)) * 100;
                             if (pr < 75) break;
                         }
-                        left.setText("Bunk " + (i-1) + " classes afterwards for 75% ");
+                        left.setText(Html.fromHtml("Bunk " +"<b>"+ (i-1) +"</b>"+ " classes afterwards for "+"<b>"+"75%"+"</b>"));
                         atndedt.setVisibility(View.INVISIBLE);
                         taredt.setVisibility(View.INVISIBLE);
                         bnkedt.setVisibility(View.INVISIBLE);
@@ -393,7 +394,7 @@ public class Bunk extends AppCompatActivity {
                             pr = ((present+att + i) / (total+att+ i) * 100);
                             if (pr > 75) break;
                         }
-                        left.setText("Attend " + (i-1) + " more classes for 75%");
+                        left.setText(Html.fromHtml("Attend " + "<b>"+(i-1) +"</b>"+ " more classes for "+"<b>"+"75%"+"</b>"));
                         atndedt.setVisibility(View.INVISIBLE);
                         taredt.setVisibility(View.INVISIBLE);
                         bnkedt.setVisibility(View.INVISIBLE);
@@ -430,7 +431,7 @@ public class Bunk extends AppCompatActivity {
                         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     int c = new Scanner(bnkedt.getText().toString().trim()).nextInt();
                     double p = ((present) / (total + c)) * 100;
-                    result.setText("You attendance will be " + String.format("%.2f", p));
+                    result.setText(Html.fromHtml("You attendance will be " + "<b>"+String.format("%.2f", p)+"</b"));
                     atndedt.setVisibility(View.INVISIBLE);
                     taredt.setVisibility(View.INVISIBLE);
                     bnkedt.setVisibility(View.INVISIBLE);
@@ -455,7 +456,8 @@ public class Bunk extends AppCompatActivity {
                             pr = (present / (total+b + i)) * 100;
                             if (pr < 75) break;
                         }
-                        left.setText("Bunk " + (i-1) + " more classes for 75% ");atndedt.setVisibility(View.INVISIBLE);
+                        left.setText(Html.fromHtml("Bunk " +"<b>"+ (i-1) +"</b>"+ " more classes for "+"<b>"+"75%"+"</b>"));
+                        atndedt.setVisibility(View.INVISIBLE);
                         taredt.setVisibility(View.INVISIBLE);
                         bnkedt.setVisibility(View.INVISIBLE);
                         sub.setVisibility(View.INVISIBLE);
@@ -476,7 +478,7 @@ public class Bunk extends AppCompatActivity {
                             pr = ((present + i) / (total+b + i) * 100);
                             if (pr > 75) break;
                         }
-                        left.setText("Attend " + (i-1) + " classes after bunk for 75%");
+                        left.setText(Html.fromHtml("Attend " +"<b>" +(i-1) +"</b>"+ " classes after bunk for"+"<b>"+"75%"+"</b>"));
                         atndedt.setVisibility(View.INVISIBLE);
                         taredt.setVisibility(View.INVISIBLE);
                         bnkedt.setVisibility(View.INVISIBLE);
