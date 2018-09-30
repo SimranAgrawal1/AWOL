@@ -1,3 +1,3 @@
 # AWOL
 (Attendance Without leave)
-Shows current attendance
+Shows current attendance of ITER Students.
