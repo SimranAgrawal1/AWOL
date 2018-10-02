@@ -1,10 +1,10 @@
 package com.codex_iter.www.awol;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,22 +12,27 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
+import com.codex_iter.www.awol.ListData;
+import com.codex_iter.www.awol.R;
+
 import java.util.Scanner;
 
-public class Bunk extends AppCompatActivity{
+public class Bunk extends AppCompatActivity {
 
     EditText atndedt,bnkedt,taredt;
     TextView result,left;
     Spinner sub;
+    TextView T1,T2,T3,T4,T5;
     Button target,bunk,attend;
     double absent,total,percent,present;
     ListData[] ld;
+    LinearLayout line;
 
 
     @Override
@@ -35,16 +40,28 @@ public class Bunk extends AppCompatActivity{
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bunk);
-       LinearLayout ll=findViewById(R.id.ll);
+        LinearLayout ll=findViewById(R.id.ll);
+        line = findViewById(R.id.line);
         ll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (result.getVisibility() == View.VISIBLE && left.getVisibility() == View.VISIBLE) {
+                    Intent intent = new Intent(Bunk.this, Bunk.class);
+                    startActivity(intent);
+
+                }
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 return false;
             }
+
         });
         this.ld=ListData.ld;
+        T1=findViewById(R.id.T1);
+        T2=findViewById(R.id.T2);
+        T3=findViewById(R.id.T3);
+        T4=findViewById(R.id.T4);
+        T5=findViewById(R.id.T5);
         String subn[]=new String[ld.length];
         for(int i=0;i<ld.length;i++)
             subn[i]=ld[i].getSub();
@@ -64,14 +81,18 @@ public class Bunk extends AppCompatActivity{
                         double p = (present / (total + i)) * 100;
                         if (p < 75) break;
                     }
-                    result.setText("Bunk " + (i-1) + " classes for 75% ");
+                    result.setText                                                                                                                                                  ("Bunk " + (i-1) + " classes for 75% ");
+
                 } else if (75 > percent) {
                     int i;
                     for (i = 0; i != -99; i++) {
                         double p = ((present + i) / (total + i) * 100);
                         if (p > 75) break;
                     }
-                    result.setText("Attend " + (i-1) + " classes for 75%");
+                    result.setVisibility(View.VISIBLE);
+
+
+
                 }
                 left.setText("");
             }
@@ -88,14 +109,49 @@ public class Bunk extends AppCompatActivity{
                         double p = (present / (total + i)) * 100;
                         if (p < 75) break;
                     }
-                    result.setText("Bunk " + (i-1) + " classes for 75% ");
+                    result.setText(Html.fromHtml("Bunk " + (i-1) + " classes for"+"<b>"+"75% "+"</b>"));
+                    atndedt.setVisibility(View.INVISIBLE);
+                    taredt.setVisibility(View.INVISIBLE);
+                    bnkedt.setVisibility(View.INVISIBLE);
+                    sub.setVisibility(View.INVISIBLE);
+                    target.setVisibility(View.INVISIBLE);
+                    bunk.setVisibility(View.INVISIBLE);
+                    attend.setVisibility(View.INVISIBLE);
+                    line.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.VISIBLE);
+                    left.setVisibility(View.VISIBLE);
+                    T1.setVisibility(View.INVISIBLE);
+                    T2.setVisibility(View.INVISIBLE);
+                    T3.setVisibility(View.INVISIBLE);
+                    T4.setVisibility(View.INVISIBLE);
+                    T5.setVisibility(View.INVISIBLE);
+
+
                 } else if (75 > percent) {
                     int i;
                     for (i = 0; i != -99; i++) {
                         double p = ((present + i) / (total + i) * 100);
                         if (p > 75) break;
                     }
-                    result.setText("Attend " + (i-1) + " classes for 75%");
+                    result.setText(Html.fromHtml("Attend " + (i-1) + " classes for"+"<b>"+"75%"+"</b>"));
+                    atndedt.setVisibility(View.INVISIBLE);
+                    taredt.setVisibility(View.INVISIBLE);
+                    bnkedt.setVisibility(View.INVISIBLE);
+                    sub.setVisibility(View.INVISIBLE);
+                    target.setVisibility(View.INVISIBLE);
+                    bunk.setVisibility(View.INVISIBLE);
+                    attend.setVisibility(View.INVISIBLE);
+                    line.setVisibility(View.INVISIBLE);
+                    T5.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.VISIBLE);
+                    left.setVisibility(View.VISIBLE);
+                    T1.setVisibility(View.INVISIBLE);
+                    T2.setVisibility(View.INVISIBLE);
+                    T3.setVisibility(View.INVISIBLE);
+                    T4.setVisibility(View.INVISIBLE);
+                    T5.setVisibility(View.INVISIBLE);
+
+
                 }
                 left.setText("");
             }
@@ -109,7 +165,6 @@ public class Bunk extends AppCompatActivity{
         target=findViewById(R.id.target);
         result=findViewById(R.id.result);
         left=findViewById(R.id.left);
-
         target.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,26 +182,75 @@ public class Bunk extends AppCompatActivity{
                         int i;
                         double p;
                         for (i = 0; i != -99; i++) {
-                             p = (present / (total + i)) * 100;
+                            p = (present / (total + i)) * 100;
                             if (p<tp) break;
                         }
-                        result.setText("Bunk " + (i-1) + " classes for req attendance");
+                        result.setText(Html.fromHtml("Bunk " + "<b>"+(i-1)+"</b>"+ " classes for req attendance"));
+                        atndedt.setVisibility(View.INVISIBLE);
+                        taredt.setVisibility(View.INVISIBLE);
+                        bnkedt.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        target.setVisibility(View.INVISIBLE);
+                        bunk.setVisibility(View.INVISIBLE);
+                        attend.setVisibility(View.INVISIBLE);
+                        line.setVisibility(View.INVISIBLE);
+                        T1.setVisibility(View.INVISIBLE);
+                        T2.setVisibility(View.INVISIBLE);
+                        T3.setVisibility(View.INVISIBLE);
+                        T4.setVisibility(View.INVISIBLE);
+                        T5.setVisibility(View.INVISIBLE);
+
+
+                        result.setVisibility(View.VISIBLE);
+                        left.setVisibility(View.VISIBLE);
                         if((int)tp!=75)
                         {
-                            int bunk=i-1;
+                            int b=i-1;
                             if (75 < tp) {
 
                                 for (i = 0; i!=99; i++) {
-                                     p = (present / (total+bunk + i)) * 100;
+                                    p = (present / (total+b + i)) * 100;
                                     if (p < 75) break;
                                 }
-                                left.setText("Bunk " + (i-1) + " more classes for 75% ");
+                                left.setText(Html.fromHtml("Bunk " + (i-1) + " more classes for "+"<b>"+"75%"+"</b>"));
+                                atndedt.setVisibility(View.INVISIBLE);
+                                taredt.setVisibility(View.INVISIBLE);
+                                bnkedt.setVisibility(View.INVISIBLE);
+                                sub.setVisibility(View.INVISIBLE);
+                                target.setVisibility(View.INVISIBLE);
+                                bunk.setVisibility(View.INVISIBLE);
+                                attend.setVisibility(View.INVISIBLE);
+                                line.setVisibility(View.INVISIBLE);
+                                T1.setVisibility(View.INVISIBLE);
+                                T2.setVisibility(View.INVISIBLE);
+                                T3.setVisibility(View.INVISIBLE);
+                                T4.setVisibility(View.INVISIBLE);
+                                T5.setVisibility(View.INVISIBLE);
+                                result.setVisibility(View.VISIBLE);
+                                left.setVisibility(View.VISIBLE);
+
                             } else if (75 > tp) {
                                 for (i = 0; i != -99; i++) {
-                                     p = ((present + i) / (total+bunk + i)) * 100;
+                                    p = ((present + i) / (total+b + i)) * 100;
                                     if (p > 75) break;
                                 }
-                                left.setText("Attend " + (i-1) + " classes after bunk for 75%");
+                                left.setText(Html.fromHtml("Attend " +"<b>"+ (i-1) +"</b>"+ " classes after bunk for "+"<b>"+"75%"+"</b>"));
+                                atndedt.setVisibility(View.INVISIBLE);
+                                taredt.setVisibility(View.INVISIBLE);
+                                bnkedt.setVisibility(View.INVISIBLE);
+                                sub.setVisibility(View.INVISIBLE);
+                                target.setVisibility(View.INVISIBLE);
+                                bunk.setVisibility(View.INVISIBLE);
+                                attend.setVisibility(View.INVISIBLE);
+                                line.setVisibility(View.INVISIBLE);
+                                T1.setVisibility(View.INVISIBLE);
+                                T2.setVisibility(View.INVISIBLE);
+                                T3.setVisibility(View.INVISIBLE);
+                                T4.setVisibility(View.INVISIBLE);
+                                T5.setVisibility(View.INVISIBLE);
+                                result.setVisibility(View.VISIBLE);
+                                left.setVisibility(View.VISIBLE);
+
                             }
 
                         }
@@ -158,27 +262,75 @@ public class Bunk extends AppCompatActivity{
                             double p = ((present + i) / (total + i) * 100);
                             if (p>tp) break;
                         }
-                        result.setText("Attend " + i + " classes for req attendance");
+                        result.setText(Html.fromHtml("Attend " +"<b>"+ i +"</b>"+ " classes for req attendance"));
+                        atndedt.setVisibility(View.INVISIBLE);
+                        taredt.setVisibility(View.INVISIBLE);
+                        bnkedt.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        target.setVisibility(View.INVISIBLE);
+                        bunk.setVisibility(View.INVISIBLE);
+                        attend.setVisibility(View.INVISIBLE);
+                        line.setVisibility(View.INVISIBLE);
+                        T1.setVisibility(View.INVISIBLE);
+                        T2.setVisibility(View.INVISIBLE);
+                        T3.setVisibility(View.INVISIBLE);
+                        T4.setVisibility(View.INVISIBLE);
+                        T5.setVisibility(View.INVISIBLE);
+                        result.setVisibility(View.VISIBLE);
+                        left.setVisibility(View.VISIBLE);
+
                         if((int)tp!=75) {
-                            double attend = i;
-                                double  p;
-                                if (75 < tp) {
-                                    for (i = 0; i != -99; i++) {
-                                        p = ((present+attend) / (total+attend+ i)) * 100;
-                                        if (p < 75) break;
-                                    }
-                                    left.setText("Bunk " + (i-1) + " classes afterwards for 75% ");
-                                } else if (75 > tp) {
-                                    for (i = 0; i != -99; i++) {
-                                        p = ((present+attend + i) / (total+attend + i) * 100);
-                                        if (p > 75) break;
-                                    }
-                                    left.setText("Attend " + (i-1) + " more classes for 75%");
+                            double att = i;
+                            double  p;
+                            if (75 < tp) {
+                                for (i = 0; i != -99; i++) {
+                                    p = ((present+att) / (total+att+ i)) * 100;
+                                    if (p < 75) break;
                                 }
+                                left.setText(Html.fromHtml("Bunk " + "<b>"+(i-1) +"</b>"+ " classes afterwards for "+"<b>"+"75%"+"</b"));
+                                atndedt.setVisibility(View.INVISIBLE);
+                                taredt.setVisibility(View.INVISIBLE);
+                                bnkedt.setVisibility(View.INVISIBLE);
+                                sub.setVisibility(View.INVISIBLE);
+                                target.setVisibility(View.INVISIBLE);
+                                bunk.setVisibility(View.INVISIBLE);
+                                attend.setVisibility(View.INVISIBLE);
+                                line.setVisibility(View.INVISIBLE);
+                                T1.setVisibility(View.INVISIBLE);
+                                T2.setVisibility(View.INVISIBLE);
+                                T3.setVisibility(View.INVISIBLE);
+                                T4.setVisibility(View.INVISIBLE);
+                                T5.setVisibility(View.INVISIBLE);
+                                result.setVisibility(View.VISIBLE);
+                                left.setVisibility(View.VISIBLE);
+
+                            } else if (75 > tp) {
+                                for (i = 0; i != -99; i++) {
+                                    p = ((present+att + i) / (total+att + i) * 100);
+                                    if (p > 75) break;
+                                }
+                                left.setText(Html.fromHtml("Attend " + "<b>"+(i-1) +"</b"+ " more classes for "+"<b>"+"75%"+"</b>"));
+                                atndedt.setVisibility(View.INVISIBLE);
+                                taredt.setVisibility(View.INVISIBLE);
+                                bnkedt.setVisibility(View.INVISIBLE);
+                                sub.setVisibility(View.INVISIBLE);
+                                target.setVisibility(View.INVISIBLE);
+                                bunk.setVisibility(View.INVISIBLE);
+                                line.setVisibility(View.INVISIBLE);
+                                attend.setVisibility(View.INVISIBLE);
+                                T1.setVisibility(View.INVISIBLE);
+                                T2.setVisibility(View.INVISIBLE);
+                                T3.setVisibility(View.INVISIBLE);
+                                T4.setVisibility(View.INVISIBLE);
+                                T5.setVisibility(View.INVISIBLE);
+                                result.setVisibility(View.VISIBLE);
+                                left.setVisibility(View.VISIBLE);
 
                             }
+
                         }
                     }
+                }
 
             }}
         );
@@ -197,25 +349,70 @@ public class Bunk extends AppCompatActivity{
                     if (getCurrentFocus() != null)
                         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     double p = ((present + c) / (total + c)) * 100;
-                    result.setText("You attendance will be " + String.format("%.2f", p));
-                    int attend = c,i;
+                    result.setText(Html.fromHtml("You attendance will be " + "<b>"+String.format("%.2f", p)+"</b>"));
+                    atndedt.setVisibility(View.INVISIBLE);
+                    taredt.setVisibility(View.INVISIBLE);
+                    bnkedt.setVisibility(View.INVISIBLE);
+                    sub.setVisibility(View.INVISIBLE);
+                    target.setVisibility(View.INVISIBLE);
+                    bunk.setVisibility(View.INVISIBLE);
+                    attend.setVisibility(View.INVISIBLE);
+                    T1.setVisibility(View.INVISIBLE);
+                    T2.setVisibility(View.INVISIBLE);
+                    T3.setVisibility(View.INVISIBLE);
+                    T4.setVisibility(View.INVISIBLE);
+                    T5.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.VISIBLE);
+                    left.setVisibility(View.VISIBLE);
+
+                    int att = c,i;
                     double pr;
                     if (75 < p) {
 
                         for (i = 0; i != -99; i++) {
-                            pr = ((present+attend )/ (total+attend + i)) * 100;
+                            pr = ((present+att )/ (total+att + i)) * 100;
                             if (pr < 75) break;
                         }
-                        left.setText("Bunk " + (i-1) + " classes afterwards for 75% ");
+                        left.setText(Html.fromHtml("Bunk " +"<b>"+ (i-1) +"</b>"+ " classes afterwards for "+"<b>"+"75%"+"</b>"));
+                        atndedt.setVisibility(View.INVISIBLE);
+                        taredt.setVisibility(View.INVISIBLE);
+                        bnkedt.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        target.setVisibility(View.INVISIBLE);
+                        bunk.setVisibility(View.INVISIBLE);
+                        attend.setVisibility(View.INVISIBLE);
+                        T1.setVisibility(View.INVISIBLE);
+                        T2.setVisibility(View.INVISIBLE);
+                        T3.setVisibility(View.INVISIBLE);
+                        T4.setVisibility(View.INVISIBLE);
+                        T5.setVisibility(View.INVISIBLE);
+                        result.setVisibility(View.VISIBLE);
+                        left.setVisibility(View.VISIBLE);
+
                     } else if (75 > p) {
                         for (i = 0; i != -99; i++) {
-                            pr = ((present+attend + i) / (total+attend+ i) * 100);
+                            pr = ((present+att + i) / (total+att+ i) * 100);
                             if (pr > 75) break;
                         }
-                        left.setText("Attend " + (i-1) + " more classes for 75%");
-                    }
+                        left.setText(Html.fromHtml("Attend " + "<b>"+(i-1) +"</b>"+ " more classes for "+"<b>"+"75%"+"</b>"));
+                        atndedt.setVisibility(View.INVISIBLE);
+                        taredt.setVisibility(View.INVISIBLE);
+                        bnkedt.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        target.setVisibility(View.INVISIBLE);
+                        bunk.setVisibility(View.INVISIBLE);
+                        attend.setVisibility(View.INVISIBLE);
+                        T1.setVisibility(View.INVISIBLE);
+                        T2.setVisibility(View.INVISIBLE);
+                        T3.setVisibility(View.INVISIBLE);
+                        T4.setVisibility(View.INVISIBLE);
+                        T5.setVisibility(View.INVISIBLE);
+                        result.setVisibility(View.VISIBLE);
+                        left.setVisibility(View.VISIBLE);
 
                     }
+
+                }
 
             }
         });
@@ -234,23 +431,69 @@ public class Bunk extends AppCompatActivity{
                         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     int c = new Scanner(bnkedt.getText().toString().trim()).nextInt();
                     double p = ((present) / (total + c)) * 100;
-                    result.setText("You attendance will be " + String.format("%.2f", p));
-                    int bunk=c,i;
+                    result.setText(Html.fromHtml("You attendance will be " + "<b>"+String.format("%.2f", p)+"</b"));
+                    atndedt.setVisibility(View.INVISIBLE);
+                    taredt.setVisibility(View.INVISIBLE);
+                    bnkedt.setVisibility(View.INVISIBLE);
+                    sub.setVisibility(View.INVISIBLE);
+                    target.setVisibility(View.INVISIBLE);
+                    bunk.setVisibility(View.INVISIBLE);
+                    T1.setVisibility(View.INVISIBLE);
+                    T2.setVisibility(View.INVISIBLE);
+                    T3.setVisibility(View.INVISIBLE);
+                    T4.setVisibility(View.INVISIBLE);
+                    T5.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.VISIBLE);
+                    left.setVisibility(View.VISIBLE);
+                    attend.setVisibility(View.INVISIBLE);
+
+                    int b=c,i;
                     double pr;
 
                     if (75 < p) {
 
                         for (i = 0; i != -99; i++) {
-                            pr = (present / (total+bunk + i)) * 100;
+                            pr = (present / (total+b + i)) * 100;
                             if (pr < 75) break;
                         }
-                        left.setText("Bunk " + (i-1) + " more classes for 75% ");
+                        left.setText(Html.fromHtml("Bunk " +"<b>"+ (i-1) +"</b>"+ " more classes for "+"<b>"+"75%"+"</b>"));
+                        atndedt.setVisibility(View.INVISIBLE);
+                        taredt.setVisibility(View.INVISIBLE);
+                        bnkedt.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        target.setVisibility(View.INVISIBLE);
+                        bunk.setVisibility(View.INVISIBLE);
+                        attend.setVisibility(View.INVISIBLE);
+                        T1.setVisibility(View.INVISIBLE);
+                        T2.setVisibility(View.INVISIBLE);
+                        T3.setVisibility(View.INVISIBLE);
+                        T4.setVisibility(View.INVISIBLE);
+                        T5.setVisibility(View.INVISIBLE);
+                        result.setVisibility(View.VISIBLE);
+                        left.setVisibility(View.VISIBLE);
+
+
                     } else if (75 > p) {
                         for (i = 0; i != -99; i++) {
-                            pr = ((present + i) / (total+bunk + i) * 100);
+                            pr = ((present + i) / (total+b + i) * 100);
                             if (pr > 75) break;
                         }
-                        left.setText("Attend " + (i-1) + " classes after bunk for 75%");
+                        left.setText(Html.fromHtml("Attend " +"<b>" +(i-1) +"</b>"+ " classes after bunk for"+"<b>"+"75%"+"</b>"));
+                        atndedt.setVisibility(View.INVISIBLE);
+                        taredt.setVisibility(View.INVISIBLE);
+                        bnkedt.setVisibility(View.INVISIBLE);
+                        sub.setVisibility(View.INVISIBLE);
+                        target.setVisibility(View.INVISIBLE);
+                        bunk.setVisibility(View.INVISIBLE);
+                        attend.setVisibility(View.INVISIBLE);
+                        T1.setVisibility(View.INVISIBLE);
+                        T2.setVisibility(View.INVISIBLE);
+                        T3.setVisibility(View.INVISIBLE);
+                        T4.setVisibility(View.INVISIBLE);
+                        T5.setVisibility(View.INVISIBLE);
+                        result.setVisibility(View.VISIBLE);
+                        left.setVisibility(View.VISIBLE);
+
                     }
 
 
@@ -259,14 +502,14 @@ public class Bunk extends AppCompatActivity{
             }
         });
 
-       bnkedt.setOnTouchListener(new View.OnTouchListener() {
-           @Override
-           public boolean onTouch(View v, MotionEvent event) {
-               taredt.setText("");
-               atndedt.setText("");
-               return false;
-           }
-       });
+        bnkedt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                taredt.setText("");
+                atndedt.setText("");
+                return false;
+            }
+        });
 
         atndedt.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -292,4 +535,4 @@ public class Bunk extends AppCompatActivity{
 
     }
 
-    }
+}
